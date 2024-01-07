@@ -10,7 +10,7 @@ on:
 
 jobs:
   init:
-    name: Initialize Void Linux package builds
+    name: Initialize package builds
     runs-on: ubuntu-latest
     outputs:
       packages: ${{ steps.find-packages.outputs.packages }}
@@ -21,13 +21,13 @@ jobs:
         with:
           submodules: true
 
-      - name: Find all Void Linux packages
+      - name: Find all packages
         id: find-packages
         run: |
-          find packages/srcpkgs -mindepth 1 -maxdepth 1 \
-            | sed 's|^packages/srcpkgs/||' \
-            | jq -R \
-            | jq -cs '{ "package": . }' \
+          find packages/* -type d \
+            | sed 's|^packages/||' \
+            | jq --raw-input \
+            | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
@@ -47,21 +47,21 @@ jobs:
           rm xbps.tar.xz
           echo "$(pwd)/usr/bin" >> $GITHUB_PATH
 
-      - name: Checkout void-packages repository
+      - name: Checkout void-packages
         uses: actions/checkout@v4
         with:
           path: void-packages
           repository: void-linux/void-packages
 
-      - name: Checkout void repository
+      - name: Checkout void-repo
         uses: actions/checkout@v4
         with:
           path: void-repo
 
-      - name: Copy custom package data to void-repository
+      - name: Copy package from my own void repository to void-repository
         run: |
-          cat void-repo/packages/common/shlibs >> void-packages/common/shlibs
-          cp -r void-repo/packages/srcpkgs/* void-packages/srcpkgs/
+          cat void-repo/packages/shlibs >> void-packages/common/shlibs
+          find void-repo/packages/* -type d -exec cp -r {} void-packages/srcpkgs/ \;
 
       - name: Build package
         id: build-package
@@ -89,6 +89,8 @@ jobs:
     needs:
       - init
       - build
+    permissions:
+      contents: write
     env:
       XBPS_ARCH: x86_64
       XBPS_TARGET_ARCH: x86_64
@@ -113,12 +115,12 @@ jobs:
 
       - name: Copy all packages into void directory
         run: |
-          mkdir -p void
-          cp ./artifacts/*/*.xbps ./void
+          mkdir -p current
+          cp ./artifacts/*/*.xbps ./current
 
       - name: Add all packages to the repository
         run: |
-          cd void
+          cd current
           for pkg in *.xbps; do
             xbps-rindex --add $pkg
           done
@@ -127,12 +129,12 @@ jobs:
         env:
           PACKAGES: ${{ needs.init.outputs.packages }}
         run: |
-          mv ./void ./void-previous
-          mkdir ./void
-          cp ./void-previous/${XBPS_ARCH}-repodata ./void/${XBPS_ARCH}-repodata
-          for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
-            pkgver=$(xbps-query --repository="$(pwd)/void-previous" --show $pkg --property pkgver)
-            mv $(pwd)/void-previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/void || echo "::warning::Previous version of $pkgver is not found"
+          mv ./current ./previous
+          mkdir ./current
+          cp ./previous/${XBPS_ARCH}-repodata ./current/${XBPS_ARCH}-repodata
+          for pkg in $(echo "$PACKAGES" | jq --raw-output '.package[]'); do
+            pkgver=$(xbps-query --repository="$(pwd)/previous" --show $pkg --property pkgver)
+            mv $(pwd)/previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/current
           done
 
       - name: Sign all packages in the repository
@@ -142,20 +144,20 @@ jobs:
             --privkey private.pem \
             --sign \
             --signedby "Jonatha Gabriel <jonathagabrielns@gmail.com>" \
-            "$(pwd)/void"
-          for pkg in ./void/*.xbps; do
+            "$(pwd)/current"
+          for pkg in ./current/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
           done
 
       - name: Clean up repositories
         run: |
-          xbps-rindex --clean "$(pwd)/void"
-          xbps-rindex --remove-obsoletes "$(pwd)/void"
+          xbps-rindex --clean "$(pwd)/current"
+          xbps-rindex --remove-obsoletes "$(pwd)/current"
 
       - name: Push updated repository to remote
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Upload Void Linux packages
-          file_pattern: "void/*"
+          file_pattern: "current/*"
           push_options: "--force"
 
