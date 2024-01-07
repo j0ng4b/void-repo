@@ -125,7 +125,7 @@ jobs:
 
       - name: Remove all packages that are no longer built
         env:
-          PACKAGES: ${{ needs.init.outputs.matrix }}
+          PACKAGES: ${{ needs.init.outputs.packages }}
         run: |
           mv ./void ./void-previous
           mkdir ./void
