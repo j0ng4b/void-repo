@@ -1,19 +1,27 @@
 # Template file for 'eww'
 pkgname=eww
-reverts="0.4.0.r47.ga9a32c1"
 version=0.4.0
 revision=1
-nightly_date=2022-09-04
 short_desc="Custom widgets system for any window manager"
 hostmakedepends="rustup pkg-config"
-makedepends="atk-devel pango-devel gdk-pixbuf-devel gtk-layer-shell-devel gtk+3-devel"
-depends="gtk-layer-shell gtk+3"
+
+# gtk-layer-shell-devel pull down all eww dependencies:
+#	- atk-devel
+#	- pango-devel
+#	- cairo-devel
+#	- libglib-devel
+#	- gdk-pixbuf-devel
+#	- gtk+3-devel
+#	- glibc
+makedepends="gtk-layer-shell-devel"
+depends="gtk-layer-shell"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="MIT"
 homepage="https://github.com/elkowar/eww"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
 checksum=67f1dfdf856168d4b0e731acdd9e7bed034c09480ce2264f857d7e48f576fc8a
-conflicts="eww-git"
+
+nightly_date=2022-09-04
 
 do_build() {
 	# We need rust nightly
