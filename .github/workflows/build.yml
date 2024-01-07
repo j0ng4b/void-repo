@@ -137,11 +137,11 @@ jobs:
 
       - name: Sign all packages in the repository
         run: |
-          echo "${{ secrets.VOID_REPOSITORY_SIGNING_KEY }}" > private.pem
+          echo "${{ secrets.VOID_REPO_SIGNING_KEY }}" > private.pem
           xbps-rindex \
             --privkey private.pem \
             --sign \
-            --signedby "RangHo Lee <hello@rangho.me>" \
+            --signedby "Jonatha Gabriel <jonathagabrielns@gmail.com>" \
             "$(pwd)/void"
           for pkg in ./void/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
