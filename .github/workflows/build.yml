@@ -63,7 +63,7 @@ jobs:
           cat void-repo/packages/shlibs >> void-packages/common/shlibs
           find void-repo/packages/* -type d -exec cp -r {} void-packages/srcpkgs/ \;
 
-      - name: Build package
+      - name: Build package ${{ matrix.package }}
         id: build-package
         run: |
           cd void-packages
