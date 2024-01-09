@@ -74,7 +74,7 @@ jobs:
             "${{ matrix.package }}" \
             "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
             "$(./xbps-src show "${{ matrix.package }}" | grep 'revision' | sed 's/\t//' | cut -d ':' -f 2)" \
-            "$(uname -m)" \
+            "$(uname -m)"
             | tee $GITHUB_OUTPUT
             | cat
 
