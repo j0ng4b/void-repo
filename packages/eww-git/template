@@ -1,0 +1,45 @@
+# Template file for 'eww-git'
+pkgname=eww-git
+version=0.4.0.65d622c
+revision=1
+short_desc="eww build from git (git version)"
+hostmakedepends="rustup pkg-config"
+
+# gtk-layer-shell-devel pull down all eww dependencies:
+#	- atk-devel
+#	- pango-devel
+#	- cairo-devel
+#	- libglib-devel
+#	- gdk-pixbuf-devel
+#	- gtk+3-devel
+#	- glibc
+makedepends="gtk-layer-shell-devel"
+depends="gtk-layer-shell"
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="MIT"
+homepage="https://github.com/elkowar/eww"
+distfiles="${homepage}/archive/master.tar.gz"
+checksum=f543d711e2a4977422ff156e88a6d06cd6676185e9ccb2d1bdef2229c0b70fe2
+conflicts="eww"
+
+nightly_date=2023-07-14
+
+do_build() {
+	# We need rust nightly
+	export RUSTUP_HOME=${wrksrc}/rustup
+	rustup-init --default-toolchain nightly-${nightly_date} -y
+	export PATH=${RUSTUP_HOME}/toolchains/nightly-${nightly_date}-${XBPS_RUST_TARGET}/bin:$PATH
+
+	# Build wayland version
+	cargo build --release --package eww --no-default-features --features wayland
+}
+
+do_install() {
+	vbin target/release/eww eww
+
+	vmkdir usr/share/examples/eww
+	vcopy examples/eww-bar usr/share/examples/eww/eww-bar
+	
+	vlicense LICENSE
+}
+
