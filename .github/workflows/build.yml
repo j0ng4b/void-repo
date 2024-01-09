@@ -24,7 +24,8 @@ jobs:
       - name: Find all packages
         id: find-packages
         run: |
-          find packages/* -type d \
+          find . -type d -newermt "$(git show -s deploy --format=%ci)"
+          find packages/* -type d -newermt "$(git show -s deploy --format=%ci)" \
             | sed 's|^packages/||' \
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
