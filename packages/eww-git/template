@@ -2,7 +2,7 @@
 pkgname=eww-git
 version=0.4.0.65d622c
 revision=1
-short_desc="eww build from git (git version)"
+short_desc="eww build from git"
 hostmakedepends="rustup pkg-config"
 
 # gtk-layer-shell-devel pull down all eww dependencies:
