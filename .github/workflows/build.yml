@@ -25,7 +25,7 @@ jobs:
         id: fetch-date
         run: |
           git fetch origin deploy:deploy
-          echo "date=$(date -d $(git show -s deploy --format=%ci) +"%Y-%m-%d %T")" >> $GITHUB_OUTPUT
+          echo "date=$(date -d "$(git show -s deploy --format=%ci)" +"%Y-%m-%d %T")" >> $GITHUB_OUTPUT
 
       - name: Find all packages
         id: find-packages
