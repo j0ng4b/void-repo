@@ -33,7 +33,8 @@ jobs:
           find packages/* -type d | while read path; do
             if [ "$(git log --since "${{ steps.fetch-date.outputs.date }}" -- "$path")" != "" ]; then
               echo $path
-              else
+            else
+              echo "not update"
             fi
           done
           #find packages/* -type d \
