@@ -6,13 +6,13 @@ short_desc="Custom widgets system for any window manager"
 hostmakedepends="rustup pkg-config"
 
 # gtk-layer-shell-devel pull down all eww dependencies:
-#	- atk-devel
-#	- pango-devel
-#	- cairo-devel
-#	- libglib-devel
-#	- gdk-pixbuf-devel
-#	- gtk+3-devel
-#	- glibc
+#   - atk-devel
+#   - pango-devel
+#   - cairo-devel
+#   - libglib-devel
+#   - gdk-pixbuf-devel
+#   - gtk+3-devel
+#   - glibc
 makedepends="gtk-layer-shell-devel"
 depends="gtk-layer-shell"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
@@ -24,21 +24,21 @@ checksum=67f1dfdf856168d4b0e731acdd9e7bed034c09480ce2264f857d7e48f576fc8a
 nightly_date=2022-09-04
 
 do_build() {
-	# We need rust nightly
-	export RUSTUP_HOME=${wrksrc}/rustup
-	rustup-init --default-toolchain nightly-${nightly_date} -y
-	export PATH=${RUSTUP_HOME}/toolchains/nightly-${nightly_date}-${XBPS_RUST_TARGET}/bin:$PATH
+    # We need rust nightly
+    export RUSTUP_HOME=${wrksrc}/rustup
+    rustup-init --default-toolchain nightly-${nightly_date} -y
+    export PATH=${RUSTUP_HOME}/toolchains/nightly-${nightly_date}-${XBPS_RUST_TARGET}/bin:$PATH
 
-	# Build wayland version
-	cargo build --release --package eww --no-default-features --features wayland
+    # Build wayland version
+    cargo build --release --package eww --no-default-features --features wayland
 }
 
 do_install() {
-	vbin target/release/eww eww
+    vbin target/release/eww eww
 
-	vmkdir usr/share/examples/eww
-	vcopy examples/eww-bar usr/share/examples/eww/eww-bar
-	
-	vlicense LICENSE
+    vmkdir usr/share/examples/eww
+    vcopy examples/eww-bar usr/share/examples/eww/eww-bar
+    
+    vlicense LICENSE
 }
 
