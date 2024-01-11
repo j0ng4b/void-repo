@@ -38,7 +38,7 @@ do_install() {
 
     vmkdir usr/share/examples/eww
     vcopy examples/eww-bar usr/share/examples/eww/eww-bar
-    
+
     vlicense LICENSE
 }
 
