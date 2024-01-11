@@ -63,11 +63,15 @@ jobs:
           cat void-repo/packages/shlibs >> void-packages/common/shlibs
           find void-repo/packages/* \( -type d -o -type l \) -exec cp -r {} void-packages/srcpkgs/ \;
 
+      - name: Add my own repo to void-packages repo list
+        run: |
+          echo 'repository=https://j0ng4b.github.io/void-repo/current'
+            > void-packages/etc/xbps.d/j0ng4b-remote-repo.conf
+
       - name: Building package ${{ matrix.package }}
         id: build-package
         run: |
           cd void-packages
-          ./xbps-src zap
           ./xbps-src binary-bootstrap
           ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
