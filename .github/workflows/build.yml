@@ -73,7 +73,7 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          ./xbps-src binary-bootstrap
+          yes | ./xbps-src binary-bootstrap
           ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
