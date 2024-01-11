@@ -65,8 +65,9 @@ jobs:
 
       - name: Add my own repo to void-packages repo list
         run: |
-          echo 'repository=https://j0ng4b.github.io/void-repo/current'
-            > void-packages/etc/xbps.d/j0ng4b-remote-repo.conf
+          mkdir void-packages/etc/xbps.d/custom
+          echo 'repository=https://j0ng4b.github.io/void-repo/current' \
+            > void-packages/etc/xbps.d/custom/01-j0ng4b-remote-repo.conf
 
       - name: Building package ${{ matrix.package }}
         id: build-package
