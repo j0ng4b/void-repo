@@ -61,9 +61,9 @@ jobs:
       - name: Copy package from my own void repository to void-repository
         run: |
           cat void-repo/packages/shlibs >> void-packages/common/shlibs
-          find void-repo/packages/* -type d -exec cp -r {} void-packages/srcpkgs/ \;
+          find void-repo/packages/* \( -type d -o -type l \) -exec cp -r {} void-packages/srcpkgs/ \;
 
-      - name: Build package ${{ matrix.package }}
+      - name: Building package ${{ matrix.package }}
         id: build-package
         run: |
           cd void-packages
@@ -77,7 +77,7 @@ jobs:
             "$(uname -m)" \
             >> $GITHUB_OUTPUT
 
-      - name: Upload package as artifact
+      - name: Uploading ${{ matrix.package }} as artifact
         uses: actions/upload-artifact@v3
         with:
           name: void-${{ matrix.package }}
