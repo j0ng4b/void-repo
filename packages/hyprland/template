@@ -9,7 +9,6 @@ makedepends="
     wlroots-devel
     libliftoff-devel
     libdisplay-info-devel
-    libexecinfo-devel
 
     hwids
     Vulkan-Headers
@@ -20,6 +19,10 @@ license="BSD-3-Clause"
 homepage="https://github.com/hyprwm/Hyprland"
 distfiles="${homepage}/releases/download/v${version}/source-v${version}.tar.gz"
 checksum=5af3ba19c17466085f4458882a342090327ca400177aac3017aa8ccff34859d0
+
+if [ "$XBPS_LIBC" = "musl" ]; then
+    makedepends+="libexecinfo-devel"
+fi
 
 do_build() {
     # Build Hyprland's wlroots
