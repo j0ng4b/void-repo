@@ -21,7 +21,7 @@ distfiles="${homepage}/releases/download/v${version}/source-v${version}.tar.gz"
 checksum=5af3ba19c17466085f4458882a342090327ca400177aac3017aa8ccff34859d0
 
 if [ "$XBPS_LIBC" = "musl" ]; then
-    makedepends+="libexecinfo-devel"
+    makedepends+=" libexecinfo-devel"
 fi
 
 do_build() {
