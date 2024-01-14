@@ -9,6 +9,7 @@ makedepends="
     wlroots-devel
     libliftoff-devel
     libdisplay-info-devel
+    libexecinfo-devel
 
     hwids
     Vulkan-Headers
