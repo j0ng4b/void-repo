@@ -13,8 +13,15 @@ hostmakedepends="rustup pkg-config"
 #   - gdk-pixbuf-devel
 #   - gtk+3-devel
 #   - glibc
-makedepends="gtk-layer-shell-devel"
-depends="gtk-layer-shell"
+makedepends="
+    atk-devel
+    pango-devel
+    cairo-devel
+    libglib-devel
+    gdk-pixbuf-devel
+    gtk+3-devel
+    glibc
+    gtk-layer-shell-devel"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="MIT"
 homepage="https://github.com/elkowar/eww"
