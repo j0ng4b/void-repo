@@ -27,7 +27,22 @@ do_build() {
     rustup-init --default-toolchain nightly-${nightly_date} -y
     export PATH=${RUSTUP_HOME}/toolchains/nightly-${nightly_date}-${XBPS_RUST_TARGET}/bin:$PATH
 
-    # Build wayland version
+    # For fast rebuilds when testing
+    export CARGO_INCREMENTAL=1
+
+    # Above rust version 1.71.1 when compiling targeting musl libc the linker
+    # will try to use only static libraries that's will fail due missing static
+    # libraries because we are building for a musl base system, where dynamic
+    # libraries are present not statics.
+    #
+    # See:
+    #   https://github.com/rust-lang/rust/issues/115430#issuecomment-1744767352
+    #   https://github.com/rust-lang/rust/issues/116348#issuecomment-1743368713
+    #   https://github.com/rust-lang/rust/issues/116348#issuecomment-1743622027
+    if [ "$XBPS_LIBC" = "musl" ]; then
+        export RUSTFLAGS="-Ctarget-feature=-crt-static"
+    fi
+
     cargo build --release --package eww --no-default-features --features wayland
 }
 
