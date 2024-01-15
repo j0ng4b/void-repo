@@ -75,7 +75,7 @@ jobs:
           cd void-packages
           yes | ./xbps-src binary-bootstrap x86_64-musl
           ./xbps-src pkg "${{ matrix.package }}"
-          printf "pkgfile=%s-%s_%s.%s.xbps\n" \
+          printf "pkgfile=%s-%s_%s.%s-musl.xbps\n" \
             "${{ matrix.package }}" \
             "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
             "$(./xbps-src show "${{ matrix.package }}" | grep 'revision' | sed 's/\t//' | cut -d ':' -f 2)" \
@@ -136,10 +136,10 @@ jobs:
         run: |
           mv ./current ./previous
           mkdir ./current
-          cp ./previous/${XBPS_ARCH}-repodata ./current/${XBPS_ARCH}-repodata
+          cp ./previous/${XBPS_ARCH}-musl-repodata ./current/${XBPS_ARCH}-musl-repodata
           for pkg in $(echo "$PACKAGES" | jq --raw-output '.package[]'); do
             pkgver=$(xbps-query --repository="$(pwd)/previous" --show $pkg --property pkgver)
-            mv $(pwd)/previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/current
+            mv $(pwd)/previous/$pkgver.$XBPS_ARCH-musl.xbps $(pwd)/current
           done
 
       - name: Sign all packages in the repository
