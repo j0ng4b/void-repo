@@ -136,10 +136,10 @@ jobs:
         run: |
           mv ./current ./previous
           mkdir ./current
-          cp ./previous/${XBPS_ARCH}-musl-repodata ./current/${XBPS_ARCH}-musl-repodata
+          cp ./previous/${XBPS_ARCH}-repodata ./current/${XBPS_ARCH}-repodata
           for pkg in $(echo "$PACKAGES" | jq --raw-output '.package[]'); do
             pkgver=$(xbps-query --repository="$(pwd)/previous" --show $pkg --property pkgver)
-            mv $(pwd)/previous/$pkgver.$XBPS_ARCH-musl.xbps $(pwd)/current
+            mv $(pwd)/previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/current
           done
 
       - name: Sign all packages in the repository
