@@ -1,15 +1,15 @@
 # Template file for 'swww'
 pkgname=swww
-version=0.8.1
+version=0.8.2
 revision=1
 build_style=cargo
 hostmakedepends="scdoc"
 short_desc="A Solution to your Wayland Wallpaper Woes"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="GPL-3.0-or-later"
-homepage="https://github.com/Horus645/swww"
+homepage="https://github.com/LGFae/swww"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=7612ae780d0aa86b772d1e224346137d490eba48e158033185d52649ff01b757
+checksum=6733cda771a0e635dbd00f7aef78ed60f1ccdf640647ecfe02d0cdfdef996b68
 
 post_build() {
     # Generate docs
