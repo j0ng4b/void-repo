@@ -40,6 +40,7 @@ fi
 
 hostmakedepends="pkg-config flex gettext
  $(vopt_if mingw "cross-${XBPS_TARGET_MACHINE%-musl}-w64-mingw32")
+ cross-i686-w64-mingw32
  $(vopt_if staging 'autoconf')"
 makedepends="gettext-devel ncurses-devel glu-devel libSM-devel
  libXext-devel libX11-devel libXpm-devel libXinerama-devel
