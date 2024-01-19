@@ -17,14 +17,16 @@ license="MIT"
 homepage="https://github.com/elkowar/eww"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
 checksum=67f1dfdf856168d4b0e731acdd9e7bed034c09480ce2264f857d7e48f576fc8a
-
-nightly_date=2022-09-04
+conflicts="eww-git"
 
 do_build() {
+    # Fetch rust nightly version
+    rust_version="$(cat rust-toolchain.toml | sed -n 's/channel.*"\(.*\)".*/\1/p')"
+
     # We need rust nightly
     export RUSTUP_HOME=${wrksrc}/rustup
-    rustup-init --default-toolchain nightly-${nightly_date} -y
-    export PATH=${RUSTUP_HOME}/toolchains/nightly-${nightly_date}-${XBPS_RUST_TARGET}/bin:$PATH
+    rustup-init --default-toolchain ${rust_version} -y
+    export PATH=${RUSTUP_HOME}/toolchains/${rust_version}-${XBPS_RUST_TARGET}/bin:$PATH
 
     # For fast rebuilds when testing
     export CARGO_INCREMENTAL=1
