@@ -1,2 +1,1 @@
 current/*.xbps filter=lfs diff=lfs merge=lfs -text
-current/*.xbps.sig2 filter=lfs diff=lfs merge=lfs -text
