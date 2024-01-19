@@ -72,6 +72,8 @@ fi
 
 if [ "$XBPS_LIBC" = "glibc" ]; then
 	hostmakedepends+=" prelink"
+else
+	configure_args+=" --enable-archs=i386,x86_64"
 fi
 
 _wine_libexec="/usr/libexec/wine"
