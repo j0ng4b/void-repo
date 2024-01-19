@@ -104,7 +104,6 @@ jobs:
       - name: Checkout deploy branch
         uses: actions/checkout@v4
         with:
-          lfs: true
           ref: deploy
 
       - name: Download all artifacts
