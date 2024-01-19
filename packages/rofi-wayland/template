@@ -1,0 +1,32 @@
+# Template file for 'rofi-wayland'
+pkgname=rofi-wayland
+version=1.7.5+wayland2
+revision=1
+hostmakedepends="meson pkg-config glib-devel flex bison"
+makedepends="
+    pango-devel
+    cairo-devel
+    libglib-devel
+    libxkbcommon-devel
+    gdk-pixbuf-devel
+    wayland-protocols
+    wayland-devel"
+depends=""
+short_desc="rofi with wayland support"
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="MIT"
+homepage="https://github.com/lbonn/rofi"
+distfiles="${homepage}/releases/download/${version}/rofi-${version}.tar.gz"
+checksum=025a390469008179eaffaa599e2eabbd81a77f7141d9038e008304673ba19843
+
+
+do_build() {
+    meson setup --prefix=/usr build -Dxcb=disabled
+    ninja -C build
+}
+
+do_install() {
+    DESTDIR=${DESTDIR} ninja -C build install
+    vlicense COPYING
+}
+
