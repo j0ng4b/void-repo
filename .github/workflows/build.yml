@@ -8,6 +8,9 @@ on:
       - "packages/**"
   workflow_dispatch:
 
+env:
+  ARCH: x86_64
+
 jobs:
   init:
     name: Initialize package builds
@@ -73,12 +76,12 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          yes | ./xbps-src binary-bootstrap x86_64-musl
-          ./xbps-src pkg "${{ matrix.package }}"
+          yes | ./xbps-src -A $ARCH binary-bootstrap
+          ./xbps-src -A $ARCH pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s-musl.xbps\n" \
             "${{ matrix.package }}" \
-            "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
-            "$(./xbps-src show "${{ matrix.package }}" | grep 'revision' | sed 's/\t//' | cut -d ':' -f 2)" \
+            "$(./xbps-src -A $ARCH show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
+            "$(./xbps-src -A $ARCH show "${{ matrix.package }}" | grep 'revision' | sed 's/\t//' | cut -d ':' -f 2)" \
             "$(uname -m)" \
             >> $GITHUB_OUTPUT
 
@@ -97,8 +100,8 @@ jobs:
     permissions:
       contents: write
     env:
-      XBPS_ARCH: x86_64-musl
-      XBPS_TARGET_ARCH: x86_64-musl
+      XBPS_ARCH: $ARCH
+      XBPS_TARGET_ARCH: $ARCH
 
     steps:
       - name: Checkout deploy branch
