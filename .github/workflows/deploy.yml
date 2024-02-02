@@ -24,7 +24,7 @@ jobs:
       - name: Setup output
         id: packages
         run: |
-          echo "${{ github.event.workflow_run }}"
+          echo "${{ toJson(github.event.workflow_run) }}"
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   deploy:
