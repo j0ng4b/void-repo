@@ -17,10 +17,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      run: |
-        echo "Included only to avoid:"
-        echo "The workflow must contain at least one job with no dependencies."
-        echo "See: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml#dependencies"
+      - name: Dummy step
+        run: |
+          echo "Included only to avoid:"
+          echo "The workflow must contain at least one job with no dependencies."
+          echo "See: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml#dependencies"
 
   deploy:
     name: Deploy all packages
