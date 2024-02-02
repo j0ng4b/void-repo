@@ -1,0 +1,99 @@
+# Template file for 'hyprland'
+pkgname=hyprland
+version=0.32.2
+revision=1
+hostmakedepends="cmake meson pkg-config make"
+makedepends="
+    cairo-devel
+    pango-devel
+    wlroots-devel
+    libliftoff-devel
+    libdisplay-info-devel
+
+    hwids
+    xorg-server-xwayland"
+short_desc="Hyprland a dynamic tiling Wayland compositor"
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="BSD-3-Clause"
+homepage="https://github.com/hyprwm/Hyprland"
+distfiles="${homepage}/releases/download/v${version}/source-v${version}.tar.gz"
+checksum=064efef8c836b641be9f2dc6e53fc53197e3ce57e76fdf889260f611a6848c26
+
+if [ "$XBPS_LIBC" = "musl" ]; then
+    makedepends+=" libexecinfo-devel"
+fi
+
+do_build() {
+    # Build Hyprland and hyprctl
+    make clear
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DNO_SYSTEMD:STRING=true -S . -B build -G Ninja
+    cmake --build build --config Release --target all ${makejobs}
+}
+
+do_install() {
+    # Install license
+    vlicense LICENSE
+
+    # Install binaries
+    vbin build/Hyprland
+    vbin build/hyprctl/hyprctl
+
+    # Install Hyprland wlroot library
+    vinstall subprojects/wlroots/build/libwlroots.so.12032 755 usr/lib/
+
+    # Install docs
+    for doc in docs/*.1; do
+        vman $doc
+    done
+
+    # Install examples
+    vsconf example/hyprland.conf
+    vsconf example/screenShader.frag
+    vcopy example/examplePlugin/ usr/share/examples/hyprland/
+
+    # Install wallpapers
+    vmkdir usr/share/hyprland
+    vcopy "assets/wall_*" usr/share/hyprland/
+
+    # Install portal and session files
+    vmkdir usr/share/wayland-sessions
+    vcopy example/hyprland.desktop usr/share/wayland-sessions/
+
+    vmkdir usr/share/xdg-desktop-portal
+    vcopy assets/hyprland-portals.conf usr/share/xdg-desktop-portal/
+
+    # Install pkgconfig file
+    vmkdir usr/share/pkgconfig
+    vcopy build/hyprland.pc usr/share/pkgconfig/
+
+    # Install headers
+    vmkdir usr/include/hyprland
+    for header in $(find src -name '*.h*' -print); do
+        dir=$(dirname $header)
+
+        vmkdir usr/include/hyprland/$dir
+        vcopy $header usr/include/hyprland/$dir
+    done
+
+    vmkdir usr/include/hyprland/protocols
+    vcopy "protocols/*-protocol.h" usr/include/hyprland/protocols
+
+    vmkdir usr/include/hyprland/wlroots
+    cd subprojects/wlroots/include
+    for header in $(find . -name '*.h*'); do
+        dir=$(dirname $header)
+
+        vmkdir usr/include/hyprland/wlroots/$dir
+        vcopy $header usr/include/hyprland/wlroots/$dir
+    done
+    cd ../../..
+
+    cd subprojects/wlroots/build/include
+    for header in $(find . -name '*.h*'); do
+        dir=$(dirname $header)
+
+        vmkdir usr/include/hyprland/wlroots/$dir
+        vcopy $header usr/include/hyprland/wlroots/$dir
+    done
+}
+

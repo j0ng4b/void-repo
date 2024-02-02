@@ -1,0 +1,58 @@
+# Template file for 'eww-git'
+pkgname=eww-git
+version=65d622c
+revision=1
+short_desc="eww build from git"
+hostmakedepends="rustup pkg-config"
+makedepends="
+    atk-devel
+    pango-devel
+    cairo-devel
+    libglib-devel
+    gdk-pixbuf-devel
+    gtk+3-devel
+    gtk-layer-shell-devel"
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="MIT"
+homepage="https://github.com/elkowar/eww"
+distfiles="${homepage}/archive/master.tar.gz"
+checksum=f543d711e2a4977422ff156e88a6d06cd6676185e9ccb2d1bdef2229c0b70fe2
+conflicts="eww"
+
+do_build() {
+    # Fetch rust nightly version
+    rust_version="$(cat rust-toolchain.toml | sed -n 's/channel.*"\(.*\)".*/\1/p')"
+
+    # We need rust nightly
+    export RUSTUP_HOME=${wrksrc}/rustup
+    rustup-init --default-toolchain ${rust_version} -y
+    export PATH=${RUSTUP_HOME}/toolchains/${rust_version}-${XBPS_RUST_TARGET}/bin:$PATH
+
+    # For fast rebuilds when testing
+    export CARGO_INCREMENTAL=1
+
+    # Above rust version 1.71.1 when compiling targeting musl libc the linker
+    # will try to use only static libraries that's will fail due missing static
+    # libraries because we are building for a musl base system, where dynamic
+    # libraries are present not statics.
+    #
+    # See:
+    #   https://github.com/rust-lang/rust/issues/115430#issuecomment-1744767352
+    #   https://github.com/rust-lang/rust/issues/116348#issuecomment-1743368713
+    #   https://github.com/rust-lang/rust/issues/116348#issuecomment-1743622027
+    if [ "$XBPS_LIBC" = "musl" ]; then
+        export RUSTFLAGS="-Ctarget-feature=-crt-static"
+    fi
+
+    cargo build --release --package eww --no-default-features --features wayland
+}
+
+do_install() {
+    vbin target/release/eww eww
+
+    vmkdir usr/share/examples/eww
+    vcopy examples/eww-bar usr/share/examples/eww/eww-bar
+
+    vlicense LICENSE
+}
+
