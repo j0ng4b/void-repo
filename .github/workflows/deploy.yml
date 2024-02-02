@@ -13,23 +13,28 @@ env:
   XBPS_TARGET_ARCH: x86_64
 
 jobs:
-  dummy:
-    name: Dummy job
+  init:
+    name: Initialize deploy
     runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
 
     steps:
-      - name: Dummy step
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+
+      - name: Setup output
+        id: packages
         run: |
-          echo "Included only to avoid:"
-          echo "The workflow must contain at least one job with no dependencies."
-          echo "See: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml#dependencies"
+          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy all packages
     runs-on: ubuntu-latest
     needs:
       - init
-      - build
     permissions:
       contents: write
 
@@ -40,7 +45,7 @@ jobs:
           ref: deploy
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
 
@@ -49,6 +54,7 @@ jobs:
           curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
           tar -xJvf xbps.tar.xz
           rm xbps.tar.xz
+          echo "${{ needs.init.outputs.packages }}"
           echo "$(pwd)/usr/bin" >> $GITHUB_PATH
 
       - name: Copy all packages into void directory
