@@ -24,6 +24,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: packages
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run_id: ${{ github.event.build.id }}
+          run: echo ${{ github.event.build.id }}
 
       - name: Setup output
         id: packages
