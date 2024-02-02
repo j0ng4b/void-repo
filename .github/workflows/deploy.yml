@@ -20,18 +20,13 @@ jobs:
       packages: ${{ steps.packages.outputs.packages }}
 
     steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: packages
-          github-token: ${{ secrets.ARTIFACTS_ACCESS_PAT }}
-          run-id: ${{ github.event.build.run_id }}
 
       - name: Setup output
         id: packages
         run: |
           echo 
-${{ github.event.build }}          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
+${{ github.event.build }}
+          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy all packages
