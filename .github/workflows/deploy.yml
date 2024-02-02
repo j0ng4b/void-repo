@@ -25,7 +25,7 @@ jobs:
         with:
           name: packages
           github-token: ${{ secrets.ARTIFACTS_ACCESS_PAT }}
-          run_id: ${{ github.event.build.run_id }}
+          run-id: ${{ github.event.build.run_id }}
 
       - name: Setup output
         id: packages
