@@ -24,8 +24,7 @@ jobs:
       - name: Setup output
         id: packages
         run: |
-          echo 
-${{ github.event.build }}
+          echo "${{ github.event.build }}"
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   deploy:
