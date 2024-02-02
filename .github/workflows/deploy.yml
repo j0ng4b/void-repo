@@ -30,7 +30,8 @@ jobs:
       - name: Setup output
         id: packages
         run: |
-          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
+          echo 
+${{ github.event.build }}          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy all packages
