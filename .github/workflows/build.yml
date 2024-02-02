@@ -35,6 +35,12 @@ jobs:
             > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
+      - name: Archive packages list
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: packages.json
+
   build:
     name: Build all packages
     runs-on: ubuntu-latest
