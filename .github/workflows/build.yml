@@ -87,7 +87,7 @@ jobs:
             >> $GITHUB_OUTPUT
 
       - name: Uploading ${{ matrix.package }} as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: void-${{ matrix.package }}
           path: void-packages/hostdir/binpkgs/${{ steps.build-package.outputs.pkgfile }}
