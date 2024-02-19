@@ -1,6 +1,6 @@
 # Template file for 'eww'
 pkgname=eww
-version=0.4.0
+version=0.5.0
 revision=1
 short_desc="Custom widgets system for any window manager"
 hostmakedepends="rustup pkg-config"
@@ -16,7 +16,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="MIT"
 homepage="https://github.com/elkowar/eww"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=67f1dfdf856168d4b0e731acdd9e7bed034c09480ce2264f857d7e48f576fc8a
+checksum=ea4f62e48e3750a361e0f359933d7d840d158592ff5b3683ba1f3ccf42bda819
 conflicts="eww-git"
 
 do_build() {
