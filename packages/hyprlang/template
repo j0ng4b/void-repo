@@ -13,7 +13,8 @@ distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
 checksum=c59e705f2c2ff9ea4e2b183fdf0bc20a62b7162604a657d6352716a1fd5061b2
 
 do_build() {
-    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
     cmake --build ./build --config Release --target hyprlang -j ${makejobs}
 }
 

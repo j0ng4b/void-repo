@@ -13,7 +13,8 @@ distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
 checksum=082c7866a8139993be0c476873dafea357bb579c8d1839280be6bfdef3177193
 
 do_build() {
-    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
     cmake --build ./build --config Release --target all -j ${makejobs}
 }
 
