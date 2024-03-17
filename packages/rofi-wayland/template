@@ -1,6 +1,6 @@
 # Template file for 'rofi-wayland'
 pkgname=rofi-wayland
-version=1.7.5+wayland2
+version=1.7.5+wayland3
 revision=1
 hostmakedepends="meson pkg-config glib-devel flex bison"
 makedepends="
@@ -17,7 +17,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="MIT"
 homepage="https://github.com/lbonn/rofi"
 distfiles="${homepage}/releases/download/${version}/rofi-${version}.tar.gz"
-checksum=025a390469008179eaffaa599e2eabbd81a77f7141d9038e008304673ba19843
+checksum=ddd66ce401bc30da8e502499bafb9ab2dbf1f8d62aeb9d41f32213394246ea59
 
 
 do_build() {
