@@ -1,6 +1,6 @@
 # Template file for 'swww'
 pkgname=swww
-version=0.8.2
+version=0.9.1
 revision=1
 build_style=cargo
 hostmakedepends="scdoc"
@@ -9,7 +9,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/LGFae/swww"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=6733cda771a0e635dbd00f7aef78ed60f1ccdf640647ecfe02d0cdfdef996b68
+checksum=c1f6cf2ccd4878e9cb5b6c6412494120535227516d3749694ac4e75ec68e0547
 
 post_build() {
     # Generate docs
