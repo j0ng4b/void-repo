@@ -1,7 +1,7 @@
 # Template file for 'hyprcursor'
 pkgname=hyprcursor
-version=0.1.4
-revision=1
+version=0.1.5
+revision=2
 hostmakedepends="cmake make pkg-config"
 makedepends="hyprlang cairo-devel libzip-devel librsvg-devel"
 depends=""
@@ -10,7 +10,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="LGPL-3.0"
 homepage="https://github.com/hyprwm/hyprcursor"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=082c7866a8139993be0c476873dafea357bb579c8d1839280be6bfdef3177193
+checksum=3958b0d7b80bcabca1c46841016c7354afc3cbcbf86b785b7b6289524cb5ec5c
 
 do_build() {
     cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -31,5 +31,8 @@ do_install() {
 
     # Install libraries
     vcopy "build/*.so*" usr/lib
+
+    # Install hyprcursor-util
+    vbin build/hyprcursor-util/hyprcursor-util
 }
 
