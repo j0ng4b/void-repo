@@ -9,6 +9,7 @@ makedepends="
     pango-devel
     cairo-devel
     libglib-devel
+    libdbusmenu-glib-devel
     gdk-pixbuf-devel
     gtk+3-devel
     gtk-layer-shell-devel"
