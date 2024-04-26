@@ -41,14 +41,21 @@ do_install() {
     # Install binaries
     vbin build/Hyprland
     vbin build/hyprctl/hyprctl
-
-    # Install Hyprland wlroot library
-    vinstall subprojects/wlroots/build/libwlroots.so.13032 755 usr/lib/
+    vbin build/hyprpm/hyprpm
 
     # Install docs
     for doc in docs/*.1; do
         vman $doc
     done
+
+    # Install completion
+    vcompletion hyprctl/hyprctl.bash bash hyprctl
+    vcompletion hyprctl/hyprctl.fish fish hyprctl
+    vcompletion hyprctl/hyprctl.zsh zsh hyprctl
+
+    vcompletion hyprpm/hyprpm.bash bash hyprpm
+    vcompletion hyprpm/hyprpm.fish fish hyprpm
+    vcompletion hyprpm/hyprpm.zsh zsh hyprpm
 
     # Install examples
     vsconf example/hyprland.conf
@@ -82,7 +89,7 @@ do_install() {
     vcopy "protocols/*-protocol.h" usr/include/hyprland/protocols
 
     vmkdir usr/include/hyprland/wlroots
-    cd subprojects/wlroots/include
+    cd subprojects/wlroots-hyprland/include
     for header in $(find . -name '*.h*'); do
         dir=$(dirname $header)
 
@@ -91,7 +98,7 @@ do_install() {
     done
     cd ../../..
 
-    cd subprojects/wlroots/build/include
+    cd subprojects/wlroots-hyprland/build/include
     for header in $(find . -name '*.h*'); do
         dir=$(dirname $header)
 
