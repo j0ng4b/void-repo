@@ -1,7 +1,7 @@
 # Template file for 'hyprland'
 pkgname=hyprland
 version=0.39.1
-revision=1
+revision=2
 hostmakedepends="cmake meson pkg-config make"
 makedepends="
     hyprlang
@@ -88,13 +88,13 @@ do_install() {
     vmkdir usr/include/hyprland/protocols
     vcopy "protocols/*-protocol.h" usr/include/hyprland/protocols
 
-    vmkdir usr/include/hyprland/wlroots
+    vmkdir usr/include/hyprland/wlroots-hyprland
     cd subprojects/wlroots-hyprland/include
     for header in $(find . -name '*.h*'); do
         dir=$(dirname $header)
 
         vmkdir usr/include/hyprland/wlroots/$dir
-        vcopy $header usr/include/hyprland/wlroots/$dir
+        vcopy $header usr/include/hyprland/wlroots-hyprland/$dir
     done
     cd ../../..
 
@@ -103,7 +103,7 @@ do_install() {
         dir=$(dirname $header)
 
         vmkdir usr/include/hyprland/wlroots/$dir
-        vcopy $header usr/include/hyprland/wlroots/$dir
+        vcopy $header usr/include/hyprland/wlroots-hyprland/$dir
     done
 }
 
