@@ -1,0 +1,8 @@
+--- hyprland.pc.in	2024-04-29 23:13:11.234463445 -0300
++++ hyprland.pc.in	2024-04-29 23:15:39.235602819 -0300
+@@ -1,4 +1,4 @@
+-prefix="@PREFIX@"
++prefix="/usr"
+ includedir="${prefix}/include"
+ 
+ Name: Hyprland
