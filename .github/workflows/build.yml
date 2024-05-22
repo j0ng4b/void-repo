@@ -18,7 +18,7 @@ jobs:
     name: Initialize package builds
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.find-packages.outputs.packages }}
+      packages: ${{ steps.build-packages.outputs.packages }}
 
     steps:
       - name: Checkout repository
@@ -38,6 +38,7 @@ jobs:
 
       # Needed by build step
       - name: List modified packages to rebuild
+        id: build-packages
         run: |
           echo '${{ steps.changed-files.outputs.all_changed_files }}' \
             | tr ' ' '\n' \
@@ -45,12 +46,10 @@ jobs:
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
-          cat packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
       # Needed by deploy step?
       - name: Find all packages
-        id: find-packages
         run: |
           find packages/* -maxdepth 0 -type d -o -type l \
             | sed 's|^packages/||' \
