@@ -34,7 +34,6 @@ jobs:
           files: |
             packages/**
           dir_names: true
-          separator: '\n'
           exclude_submodules: true
 
       # Needed by build step
