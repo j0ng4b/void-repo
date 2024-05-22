@@ -1,6 +1,7 @@
 name: Deploy Void Linux packages
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: [Build Void Linux packages]
     branches: [main]
