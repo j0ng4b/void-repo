@@ -32,7 +32,7 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files: |
-            - packages/**
+            packages/**
           dir_names: true
           exclude_submodules: true
 
@@ -40,8 +40,9 @@ jobs:
         env:
           PACKAGES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
+          echo '> ${{ steps.changed-files.outputs.all_changed_files }} <'
           for pack in ${PACKAGES}; do
-            echo $pack
+            echo "packages $pack changed"
           done
 
       - name: Find all packages
