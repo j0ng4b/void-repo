@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci-*
     paths:
       - "packages/**"
   workflow_dispatch:
@@ -17,23 +18,44 @@ jobs:
     name: Initialize package builds
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.find-packages.outputs.packages }}
+      packages: ${{ steps.build-packages.outputs.packages }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           submodules: true
 
+      - name: Get changed packages
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            packages/**
+          dir_names: true
+          exclude_submodules: true
+
+      # Needed by build step
+      - name: List modified packages to rebuild
+        id: build-packages
+        run: |
+          echo '${{ steps.changed-files.outputs.all_changed_files }}' \
+            | tr ' ' '\n' \
+            | sed 's|^packages/||' \
+            | jq --raw-input \
+            | jq --compact-output --slurp '{ "package": . }' \
+            > packages.json
+          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
+
+      # Needed by deploy step
       - name: Find all packages
-        id: find-packages
         run: |
           find packages/* -maxdepth 0 -type d -o -type l \
             | sed 's|^packages/||' \
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
-          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
       - name: Archive packages list
         uses: actions/upload-artifact@v4
