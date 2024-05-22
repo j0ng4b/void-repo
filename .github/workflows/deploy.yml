@@ -1,7 +1,6 @@
 name: Deploy Void Linux packages
 
 on:
-  workflow_dispatch:
   workflow_run:
     workflows: [Build Void Linux packages]
     branches: [main]
@@ -25,7 +24,7 @@ jobs:
         with:
           name: packages
           github-token: ${{ secrets.ARTIFACTS_ACCESS_PAT }}
-          run-id: 1525409584 # ${{ github.event.workflow_run.id }}
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Setup job output as package list
         id: packages
