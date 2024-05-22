@@ -25,7 +25,7 @@ jobs:
         with:
           name: packages
           github-token: ${{ secrets.ARTIFACTS_ACCESS_PAT }}
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: 1525409584 # ${{ github.event.workflow_run.id }}
 
       - name: Setup job output as package list
         id: packages
