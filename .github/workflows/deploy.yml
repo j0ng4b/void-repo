@@ -57,7 +57,6 @@ jobs:
           curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
           tar -xJvf xbps.tar.xz
           rm xbps.tar.xz
-          echo "${{ needs.init.outputs.packages }}"
           echo "$(pwd)/usr/bin" >> $GITHUB_PATH
 
       - name: Copy all packages into void directory

@@ -48,7 +48,7 @@ jobs:
             > packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
-      # Needed by deploy step?
+      # Needed by deploy step
       - name: Find all packages
         run: |
           find packages/* -maxdepth 0 -type d -o -type l \
