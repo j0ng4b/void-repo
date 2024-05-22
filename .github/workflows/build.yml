@@ -44,6 +44,7 @@ jobs:
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
+          cat packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
       # Needed by deploy step?
