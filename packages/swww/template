@@ -17,7 +17,6 @@ post_build() {
     ./doc/gen.sh
 }
 
-
 do_install() {
     vbin target/${XBPS_RUST_TARGET}/release/swww swww
     vbin target/${XBPS_RUST_TARGET}/release/swww-daemon swww-daemon
