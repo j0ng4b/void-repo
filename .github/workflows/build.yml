@@ -38,7 +38,7 @@ jobs:
 
       - name: List modified packages to rebuild
         env:
-          PACKAGES: ${{ steps.changed-files.outputs.modified_files }}
+          PACKAGES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for pack in ${PACKAGES}; do
             echo $pack
