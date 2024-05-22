@@ -61,9 +61,7 @@ jobs:
 
       - name: Copy all packages into void directory
         run: |
-          ls
-          mkdir -p current
-          cp ./artifacts/*/*.xbps ./current
+          cp -f ./artifacts/*/*.xbps ./current
 
       - name: Add all packages to the repository
         run: |
