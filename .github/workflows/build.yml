@@ -33,7 +33,6 @@ jobs:
         with:
           files: |
             - packages/**
-          dir_names: true
           exclude_submodules: true
 
       - name: List modified packages to rebuild
