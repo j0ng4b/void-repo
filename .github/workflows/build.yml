@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci-*
     paths:
       - "packages/**"
   workflow_dispatch:
@@ -23,7 +24,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           submodules: true
+
+      - name: Get changed packages
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            - packages/**
+          dir_names: true
+          exclude_submodules: true
+
+      - name: List modified packages to rebuild
+        env:
+          PACKAGES: ${{ steps.changed-files.outputs.modified_files }}
+        run: |
+          for pack in ${PACKAGES}; do
+            echo $pack
+          done
 
       - name: Find all packages
         id: find-packages
