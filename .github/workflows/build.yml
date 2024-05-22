@@ -40,12 +40,11 @@ jobs:
       - name: List modified packages to rebuild
         run: |
           echo '${{ steps.changed-files.outputs.all_changed_files }}' \
+            | tr ' ' '\n' \
             | sed 's|^packages/||' \
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
-          echo '${{ steps.changed-files.outputs.all_changed_files }}' \
-            | sed 's|^packages/||'
           cat packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
