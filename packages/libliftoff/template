@@ -6,7 +6,6 @@ hostmakedepends="meson pkg-config"
 makedepends="libdrm-devel"
 short_desc="Lightweight KMS plane library"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
-
 license="MIT"
 homepage="https://gitlab.freedesktop.org/emersion/${pkgname}"
 distfiles="${homepage}/-/releases/v${version}/downloads/${pkgname}-${version}.tar.gz"
