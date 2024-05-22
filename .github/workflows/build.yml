@@ -41,7 +41,7 @@ jobs:
       # Needed by build step
       - name: List modified packages to rebuild
         run: |
-          cat .github/outpus/all_changed_files.txt \
+          cat .github/outputs/all_changed_files.txt \
             | sed 's|^packages/||' \
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
