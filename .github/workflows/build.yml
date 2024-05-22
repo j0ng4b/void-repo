@@ -36,17 +36,17 @@ jobs:
           dir_names: true
           separator: '\n'
           exclude_submodules: true
-          write_output_files: true
 
       # Needed by build step
       - name: List modified packages to rebuild
         run: |
-          cat .github/outputs/all_changed_files.txt \
+          echo '${{ steps.changed-files.outputs.all_changed_files }}' \
             | sed 's|^packages/||' \
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
-          cat .github/outpus/all_changed_files.txt
+          echo '${{ steps.changed-files.outputs.all_changed_files }}' \
+            | sed 's|^packages/||'
           cat packages.json
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
