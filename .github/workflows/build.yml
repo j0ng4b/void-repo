@@ -24,7 +24,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           submodules: true
 
       - name: Get changed packages
@@ -33,6 +33,7 @@ jobs:
         with:
           files: |
             - packages/**
+          dir_names: true
           exclude_submodules: true
 
       - name: List modified packages to rebuild
