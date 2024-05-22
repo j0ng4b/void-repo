@@ -1,6 +1,6 @@
 # Template file for 'swww'
 pkgname=swww
-version=0.9.5
+version=0.9.4
 revision=1
 build_style=cargo
 hostmakedepends="scdoc pkg-config"
