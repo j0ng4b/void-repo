@@ -36,15 +36,17 @@ jobs:
           dir_names: true
           exclude_submodules: true
 
+      # Needed by build step
       - name: List modified packages to rebuild
-        env:
-          PACKAGES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo '> ${{ steps.changed-files.outputs.all_changed_files }} <'
-          for pack in ${PACKAGES}; do
-            echo "packages $pack changed"
-          done
+          echo '${{ steps.changed-files.outputs.all_changed_files }}' \
+            | sed 's|^packages/||' \
+            | jq --raw-input \
+            | jq --compact-output --slurp '{ "package": . }' \
+            > packages.json
+          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
+      # Needed by deploy step?
       - name: Find all packages
         id: find-packages
         run: |
@@ -53,7 +55,6 @@ jobs:
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
-          echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
       - name: Archive packages list
         uses: actions/upload-artifact@v4
