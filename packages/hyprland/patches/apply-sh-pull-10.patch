@@ -1,0 +1,16 @@
+--- a/subprojects/wlroots-hyprland/patches/apply.sh	2024-05-29 11:19:14.072991429 -0300
++++ b/subprojects/wlroots-hyprland/patches/apply.sh	2024-05-29 11:19:34.569733750 -0300
+@@ -4,11 +4,11 @@
+ PATCHES=$(find patches/ -type f -name '*.patch')
+ 
+ apply () {
+-	git apply $PATCH
++	patch -p1 -r /dev/null -N -s < $PATCH >/dev/null 2>&1 && echo NEW: \'$PATCH\'
+ }
+ 
+ check_applied () {
+-	git apply --check --reverse -q $PATCH
++	patch -p1 -r /dev/null --dry-run -R -s < $PATCH >/dev/null 2>&1 && echo OK: \'$PATCH\'
+ }
+ 
+ fail () {
