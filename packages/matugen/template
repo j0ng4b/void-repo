@@ -1,0 +1,25 @@
+# Template file for 'matugen'
+pkgname=matugen
+version=2.2.0
+revision=1
+build_style=cargo
+short_desc="A material you color generation tool "
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="GPL-2.0-or-later"
+homepage="https://github.com/InioX/matugen"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=567e2ac76203ad47df5aaafab7d9d0e4e283a74e34690930a4730ecf0a667428
+
+do_install() {
+	# Install license
+    vlicense LICENSE
+
+	# Install binary
+    vbin target/${XBPS_RUST_TARGET}/release/matugen
+
+	# Install examples
+    for example in example/*; do
+        vsconf $example
+    done
+}
+
