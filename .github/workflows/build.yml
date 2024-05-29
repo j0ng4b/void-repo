@@ -49,16 +49,15 @@ jobs:
             > packages.json
 
           for package in $PACKAGES; do
-            echo $package
+            echo Package: $package
 
             for symlink in $(find -L packages/ -samefile $package); do
-              echo $symlink
-
               if [ "$symlink" = "$package" ]; then
                 continue
               fi
 
-              echo $symlink >> packages.json
+              echo "\tlinked $symlink"
+              echo "$symlink" >> packages.json
             done
           done
 
