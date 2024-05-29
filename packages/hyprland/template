@@ -1,8 +1,13 @@
 # Template file for 'hyprland'
 pkgname=hyprland
-version=0.39.1
-revision=3
-hostmakedepends="cmake meson pkg-config make"
+version=0.40.0
+revision=1
+hostmakedepends="
+	cmake
+	meson
+	pkg-config
+	make
+	hyprwayland-scanner"
 makedepends="
     hyprlang
     hyprcursor
@@ -21,7 +26,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="BSD-3-Clause"
 homepage="https://github.com/hyprwm/Hyprland"
 distfiles="${homepage}/releases/download/v${version}/source-v${version}.tar.gz"
-checksum=48d1c58fd8db365635a56d76e05e6ea2d99fa20c020a061ee88a20407cfde787
+checksum=0995fe7924a60e3d81428b3fa03ab15d8065958d6285443225afbafa31d29038
 
 if [ "$XBPS_LIBC" = "musl" ]; then
     makedepends+=" libexecinfo-devel"
