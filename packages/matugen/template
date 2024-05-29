@@ -8,7 +8,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="GPL-2.0-or-later"
 homepage="https://github.com/InioX/matugen"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=567e2ac76203ad47df5aaafab7d9d0e4e283a74e34690930a4730ecf0a667428
+checksum=100165994cc899dff1c01273bda6aa9d94c9ad1d4c79142fafe6f595685dbf0e
 
 do_install() {
 	# Install license
