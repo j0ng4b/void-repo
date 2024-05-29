@@ -44,7 +44,6 @@ jobs:
           packages=$(echo "$PACKAGES" \
             | tr ' ' '\n' \
             | sed 's|^packages/||')
-          echo Start: $packages
 
           for package in $PACKAGES; do
             for symlink in $(find -L packages/ -samefile $package); do
@@ -52,14 +51,13 @@ jobs:
                 continue
               fi
 
-              echo "\tlinked $symlink"
-              packages="$packages\n$(echo "$symlink")"
-              echo $packages
+              packages="$packages $(echo "$symlink" | sed 's|^packages/||')"
             done
           done
 
-          echo Final: $packages
-          echo "$packages" | jq --raw-input \
+          echo "$packages" \
+            | tr ' ' '\n' \
+            | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
 
