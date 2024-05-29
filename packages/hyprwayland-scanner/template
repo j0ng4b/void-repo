@@ -1,0 +1,35 @@
+# Template file for 'hyprwayland-scanner'
+pkgname=hyprwayland-scanner
+version=0.3.8
+revision=1
+hostmakedepends="cmake make pkg-config"
+makedepends="pugixml-devel"
+short_desc="A Hyprland implementation of wayland-scanner, in and for C++."
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="BSD-3-Clause"
+homepage="https://github.com/hyprwm/hyprwayland-scanner"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=8f596074fbb990ae6c3a427872b32219aeb17cbeb296b8f30482ef7f46249173
+
+do_build() {
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+    cmake --build ./build --config Release --target all -j ${makejobs}
+}
+
+do_install() {
+    vlicense LICENSE
+
+    # Install pkgconfig file
+    vmkdir usr/share/pkgconfig
+    vcopy build/hyprwayland-scanner.pc usr/share/pkgconfig
+
+    # Install cmake files
+	vmkdir usr/lib/cmake/hyprwayland-scanner
+    vcopy build/hyprwayland-scanner-config-version.cmake usr/lib/cmake/hyprwayland-scanner
+    vcopy build/hyprwayland-scanner-config.cmake usr/lib/cmake/hyprwayland-scanner
+
+    # Install hyprwayland-scanner
+    vbin build/hyprwayland-scanner
+}
+
