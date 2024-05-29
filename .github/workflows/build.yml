@@ -38,13 +38,30 @@ jobs:
       # Needed by build step
       - name: List modified packages to rebuild
         id: build-packages
+        env:
+          PACKAGES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo '${{ steps.changed-files.outputs.all_changed_files }}' \
+          echo "$PACKAGES" \
             | tr ' ' '\n' \
             | sed 's|^packages/||' \
             | jq --raw-input \
             | jq --compact-output --slurp '{ "package": . }' \
             > packages.json
+
+          for package in $PACKAGES; do
+            echo $package
+
+            for symlink in $(find -L packages/ -samefile $package); do
+              echo $symlink
+
+              if [ "$symlink" = "$package" ]; then
+                continue
+              fi
+
+              echo $symlink >> packages.json
+            done
+          done
+
           echo "packages=$(cat packages.json)" >> $GITHUB_OUTPUT
 
       # Needed by deploy step
