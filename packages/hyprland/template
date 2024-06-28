@@ -1,16 +1,17 @@
 # Template file for 'hyprland'
 pkgname=hyprland
-version=0.40.0
+version=0.41.2
 revision=2
 hostmakedepends="
-	cmake
-	meson
-	pkg-config
-	make
-	hyprwayland-scanner"
+    cmake
+    meson
+    pkg-config
+    make
+    hyprwayland-scanner"
 makedepends="
     hyprlang
     hyprcursor
+    hyprutils
 
     cairo-devel
     pango-devel
@@ -26,7 +27,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="BSD-3-Clause"
 homepage="https://github.com/hyprwm/Hyprland"
 distfiles="${homepage}/releases/download/v${version}/source-v${version}.tar.gz"
-checksum=0995fe7924a60e3d81428b3fa03ab15d8065958d6285443225afbafa31d29038
+checksum=c2de1ea4f02ae817d42268874f6be692d807dcff9817a0cd438f9a221b045369
 
 if [ "$XBPS_LIBC" = "musl" ]; then
     makedepends+=" libexecinfo-devel"
@@ -35,7 +36,11 @@ fi
 do_build() {
     # Build Hyprland and hyprctl
     make clear
-    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DNO_SYSTEMD:STRING=true -S . -B build -G Ninja
+
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DNO_SYSTEMD:STRING=true -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -S . -B build -G Ninja
+
     cmake --build build --config Release --target all ${makejobs}
 }
 
