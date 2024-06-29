@@ -1,0 +1,38 @@
+# Template file for 'hyprlock'
+pkgname=hyprlock
+version=0.3.0
+revision=1
+hostmakedepends="
+    cmake
+    ninja"
+makedepends="
+    hyprlang
+
+    pam-devel
+
+    cairo-devel
+    pango-devel
+    libdrm-devel"
+short_desc="Hyprland's GPU-accelerated screen locking utility."
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="BSD-3-Clause"
+homepage="https://github.com/hyprwm/hyprlock"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=5e84ac3223ea340bb3d39c22db4edefbb8364da8c3b6b3d0da1dfa45d8cc945f
+
+do_build() {
+    cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
+        -DNO_SYSTEMD:STRING=true -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -S . -B build -G Ninja
+
+    cmake --build build --config Release --target all ${makejobs}
+}
+
+do_install() {
+    # Install license
+    vlicense LICENSE
+
+    # Install binary
+    vbin build/hyprlock
+}
+
