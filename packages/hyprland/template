@@ -1,7 +1,7 @@
 # Template file for 'hyprland'
 pkgname=hyprland
 version=0.41.2
-revision=3
+revision=4
 hostmakedepends="
     cmake
     meson
@@ -54,6 +54,7 @@ do_install() {
 
     # Install binaries
     vbin build/Hyprland
+    vbin build/hyprland
     vbin build/hyprctl/hyprctl
     vbin build/hyprpm/hyprpm
 
