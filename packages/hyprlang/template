@@ -1,7 +1,7 @@
 # Template file for 'hyprlang'
 pkgname=hyprlang
 version=0.5.2
-revision=1
+revision=2
 hostmakedepends="cmake make"
 makedepends=""
 depends=""
@@ -15,6 +15,7 @@ checksum=66a1f87634c8ecdeb67d7ccc499a3fc1c19b064a098b103be042751e7430b5cc
 do_build() {
     cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release \
         -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+
     cmake --build ./build --config Release --target hyprlang -j ${makejobs}
 }
 
