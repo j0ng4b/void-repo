@@ -49,7 +49,7 @@ do_install() {
     vlicense LICENSE
 
     cd build
-    ln -s Hyprland hyprland
+    ln -sf Hyprland hyprland
     cd ..
 
     # Install binaries
@@ -103,22 +103,22 @@ do_install() {
     vmkdir usr/include/hyprland/protocols
     vcopy "protocols/*-protocol.h" usr/include/hyprland/protocols
 
-    vmkdir usr/include/hyprland/wlroots-hyprland
-    cd subprojects/wlroots-hyprland/include
+    vmkdir usr/include/hyprland/wlr
+    cd subprojects/wlroots-hyprland/include/wlr
     for header in $(find . -name '*.h*'); do
         dir=$(dirname $header)
 
-        vmkdir usr/include/hyprland/wlroots-hyprland/$dir
-        vcopy $header usr/include/hyprland/wlroots-hyprland/$dir
+        vmkdir usr/include/hyprland/wlr/$dir
+        vcopy $header usr/include/hyprland/wlr/$dir
     done
-    cd ../../..
+    cd ../../../..
 
     cd subprojects/wlroots-hyprland/build/include
     for header in $(find . -name '*.h*'); do
         dir=$(dirname $header)
 
-        vmkdir usr/include/hyprland/wlroots-hyprland/$dir
-        vcopy $header usr/include/hyprland/wlroots-hyprland/$dir
+        vmkdir usr/include/hyprland/wlr/$dir
+        vcopy $header usr/include/hyprland/wlr/$dir
     done
 }
 
