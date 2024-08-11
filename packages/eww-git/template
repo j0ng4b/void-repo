@@ -1,6 +1,6 @@
-# Template file for 'eww'
-pkgname=eww
-version=0.6.0
+# Template file for 'eww-git'
+pkgname=eww-git
+version=4d55e9a
 revision=1
 short_desc="Custom widgets system for any window manager"
 hostmakedepends="rustup pkg-config"
@@ -16,8 +16,9 @@ makedepends="
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="MIT"
 homepage="https://github.com/elkowar/eww"
-distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=cef361946946c566b79f8ddc6208d1a3f16b4ff9961439a3f86935e1cfa174a1
+distfiles="${homepage}/archive/master.tar.gz"
+checksum=b08293b5287f6e422fb1d0d5e4757ace3ccc75a3dd22b2f8d14272d18131d586
+conflicts="eww"
 
 do_build() {
     # Fetch rust nightly version
