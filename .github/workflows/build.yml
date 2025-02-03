@@ -7,6 +7,7 @@ on:
       - ci-*
     paths:
       - "packages/**"
+  workflow_dispatch:
 
 env:
   XBPS_ARCH: x86_64
@@ -28,7 +29,7 @@ jobs:
 
       - name: Get changed packages
         id: changed-files
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v46.0.3
         with:
           files: |
             packages/**
@@ -41,6 +42,10 @@ jobs:
         env:
           PACKAGES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PACKAGES=$(find packages -mindepth 1 -type d)
+          fi
+          
           packages=$(echo "$PACKAGES" \
             | tr ' ' '\n' \
             | sed 's|^packages/||')
@@ -86,20 +91,32 @@ jobs:
       - init
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.packages) }}
+    container:
+      image: ghcr.io/void-linux/void-glibc-full:latest
+      options: --platform linux/amd64 --privileged
 
     steps:
-      - name: Install latest version of xbps
+      - name: Setup container
         run: |
-          curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
-          tar -xJvf xbps.tar.xz
-          rm xbps.tar.xz
-          echo "$(pwd)/usr/bin" >> $GITHUB_PATH
-
+          xbps-install -Syu xbps
+          xbps-install -yu
+          xbps-install -y sudo bash grep curl git
+          useradd -G xbuilder -M builder -s $(which bash)
+      
       - name: Checkout void-packages
         uses: actions/checkout@v4
         with:
           path: void-packages
           repository: void-linux/void-packages
+
+      - name: Setup void-packages
+        run: |
+          chown -R builder:builder void-packages
+
+          cd void-packages
+          echo XBPS_BUILD_ENVIRONMENT=void-packages-ci >> etc/conf
+          echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+          echo XBPS_CHROOT_CMD=uchroot >> etc/conf
 
       - name: Checkout void-repo
         uses: actions/checkout@v4
@@ -115,14 +132,14 @@ jobs:
         run: |
           mkdir void-packages/etc/xbps.d/custom
           echo 'repository=https://j0ng4b.github.io/void-repo/current' \
-            > void-packages/etc/xbps.d/custom/01-j0ng4b-remote-repo.conf
+           > void-packages/etc/xbps.d/custom/01-j0ng4b-remote-repo.conf
 
       - name: Building package ${{ matrix.package }}
         id: build-package
         run: |
           cd void-packages
-          yes | ./xbps-src -A $XBPS_ARCH binary-bootstrap
-          ./xbps-src -A $XBPS_ARCH pkg "${{ matrix.package }}"
+          yes | sudo -u builder ./xbps-src -A $XBPS_ARCH binary-bootstrap
+          sudo -u builder ./xbps-src -A $XBPS_ARCH pkg "${{ matrix.package }}" -j$(nproc)
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(./xbps-src -A $XBPS_ARCH show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
