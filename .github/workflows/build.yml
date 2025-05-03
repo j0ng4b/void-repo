@@ -45,7 +45,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             PACKAGES=$(find packages -mindepth 1 -type d)
           fi
-          
+
           packages=$(echo "$PACKAGES" \
             | tr ' ' '\n' \
             | sed 's|^packages/||')
@@ -102,7 +102,7 @@ jobs:
           xbps-install -yu
           xbps-install -y sudo bash grep curl git
           useradd -G xbuilder -M builder -s $(which bash)
-      
+
       - name: Checkout void-packages
         uses: actions/checkout@v4
         with:

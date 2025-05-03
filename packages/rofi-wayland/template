@@ -1,7 +1,7 @@
 # Template file for 'rofi-wayland'
 pkgname=rofi-wayland
 version=1.7.8+wayland1
-revision=1
+revision=2
 hostmakedepends="meson pkg-config glib-devel flex bison"
 makedepends="
     pango-devel
