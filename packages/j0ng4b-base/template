@@ -1,0 +1,50 @@
+# Template file for 'j0ng4b-base'
+pkgname=j0ng4b-base
+version=1
+revision=1
+depends="
+	bat
+	bluez
+	brightnessctl
+	btop
+	cava
+	dconf
+	dejavu-fonts-ttf
+	delta
+	dunst
+	eww-git
+	eza
+	foot
+	grim
+	inotify-tools
+	iwd
+	jq
+	libspa-bluetooth
+	papirus-icon-theme
+	pipewire
+	rofi-wayland
+	seatd
+	starship
+	slurp
+	spotify-adblock
+	swayfx
+	swayidle
+	swww
+	tlp
+	tmux
+	wireplumber
+	wl-clipboard
+	wlsunset
+	yazi
+	zsh
+"
+short_desc="meta package for j0ng4b base packages"
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="MIT"
+homepage="https://github.com/j0ng4b/void-repo"
+
+
+do_install() {
+	:
+}
+
