@@ -2,6 +2,7 @@
 pkgname=j0ng4b-base
 version=1
 revision=1
+build_style=meta
 depends="
 	bat
 	bluez
@@ -42,9 +43,3 @@ short_desc="meta package for j0ng4b base packages"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="MIT"
 homepage="https://github.com/j0ng4b/void-repo"
-
-
-do_install() {
-	:
-}
-

@@ -2,6 +2,7 @@
 pkgname=j0ng4b-dev
 version=1
 revision=1
+build_style=meta
 depends="
 	git
 	neovim
