@@ -1,6 +1,6 @@
 # Template file for 'eww-git'
 pkgname=eww-git
-version=c999033
+version=0.6.0
 revision=1
 short_desc="Custom widgets system for any window manager"
 hostmakedepends="rustup pkg-config"
