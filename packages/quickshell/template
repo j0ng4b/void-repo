@@ -1,0 +1,34 @@
+# Template file for 'quickshell'
+pkgname=quickshell
+version=0.1.0
+revision=1
+build_style=cmake
+configure_args="-DDISTRIBUTOR=VoidLinux
+	-DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO
+	-DCRASH_REPORTER=OFF
+	-DCMAKE_BUILD_TYPE=Release"
+hostmakedepends="cmake pkg-config ninja"
+makedepends="qt6-base-private-devel
+	qt6-declarative-private-devel
+	qt6-wayland-private-devel
+	qt6-shadertools-devel
+	qt6-svg-devel
+	qt6-dbus
+	SPIRV-Tools-devel
+	wayland-devel
+	wayland-protocols
+	wayland-scanner++
+	pipewire-devel
+	jemalloc-devel
+	pam-devel
+	cli11"
+short_desc="quickshell: building blocks for your desktop"
+maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
+license="LGPL-3.0-or-later"
+homepage="https://quickshell.outfoxxed.me/"
+distfiles="https://git.outfoxxed.me/quickshell/quickshell/archive/v${version}.zip"
+checksum=8aa03e95817a002a0024e13b6f52143a9929e7a77b2fc7c0dd7c960e64246c28
+
+post_install() {
+	vlicense LICENSE
+}
