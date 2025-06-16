@@ -93,7 +93,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.packages) }}
     container:
-      image: ghcr.io/void-linux/void-glibc-full:20250501R1
+      image: ghcr.io/void-linux/void-glibc-full:20250227R1
       options: --platform linux/amd64 --privileged
 
     steps:
