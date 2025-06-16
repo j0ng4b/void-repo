@@ -3,7 +3,9 @@ pkgname=cli11
 version=2.5.0
 revision=1
 build_style=cmake
-configure_args="-DCLI11_BUILD_EXAMPLES=OFF"
+configure_args="-DCLI11_BUILD_EXAMPLES=OFF
+    -DCLI11_BUILD_TESTS=OFF
+    -DCMAKE_BUILD_TYPE=Release"
 makedepends="catch2"
 short_desc="Command line parser for C++11 and beyond"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
