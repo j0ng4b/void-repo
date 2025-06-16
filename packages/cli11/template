@@ -1,9 +1,10 @@
 # Template file for 'cli11'
 pkgname=cli11
 version=2.5.0
-revision=2
+revision=1
 build_style=cmake
 configure_args="-DCLI11_BUILD_EXAMPLES=OFF"
+makedepends="catch2"
 short_desc="Command line parser for C++11 and beyond"
 maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="BSD-3-Clause"

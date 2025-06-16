@@ -141,10 +141,7 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          grep ^Cap /proc/1/status
-          echo 'fail 1'
-          sudo -u builder ./xbps-src -A $XBPS_ARCH pkg "${{ matrix.package }}" -j$(nproc)
-          echo 'fail 2'
+          sudo -u builder ./xbps-src -s -A $XBPS_ARCH pkg "${{ matrix.package }}" -j$(nproc)
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(sudo -u builder ./xbps-src -A $XBPS_ARCH show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
