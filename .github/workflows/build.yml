@@ -93,7 +93,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.packages) }}
     container:
-      image: ghcr.io/void-linux/void-glibc-full:20250227R1
+      image: ghcr.io/void-linux/void-glibc-full:latest
       options: --platform linux/amd64 --privileged
 
     steps:
@@ -119,6 +119,8 @@ jobs:
           echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
           echo XBPS_CHROOT_CMD=uchroot >> etc/conf
 
+          yes | sudo -u builder ./xbps-src -A $XBPS_ARCH binary-bootstrap
+
       - name: Checkout void-repo
         uses: actions/checkout@v4
         with:
@@ -139,8 +141,10 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          yes | sudo -u builder ./xbps-src -A $XBPS_ARCH binary-bootstrap
+          grep ^Cap /proc/1/status
+          echo 'fail 1'
           sudo -u builder ./xbps-src -A $XBPS_ARCH pkg "${{ matrix.package }}" -j$(nproc)
+          echo 'fail 2'
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(sudo -u builder ./xbps-src -A $XBPS_ARCH show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
