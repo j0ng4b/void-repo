@@ -6,6 +6,7 @@ build_style=cmake
 configure_args="-DDISTRIBUTOR=VoidLinux
 	-DDISTRIBUTOR_DEBUGINFO_AVAILABLE=NO
 	-DCRASH_REPORTER=OFF
+	-DINSTALL_QML_PREFIX=lib/qt6/qml
 	-DCMAKE_BUILD_TYPE=Release"
 hostmakedepends="cmake pkg-config ninja"
 makedepends="qt6-base-private-devel

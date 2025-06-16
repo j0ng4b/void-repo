@@ -110,6 +110,12 @@ jobs:
           path: void-packages
           repository: void-linux/void-packages
 
+      - name: Add my own repo to void-packages repo list
+        run: |
+          mkdir void-packages/etc/xbps.d/custom
+          echo 'repository=https://j0ng4b.github.io/void-repo/current' \
+           > void-packages/etc/xbps.d/custom/01-j0ng4b-remote-repo.conf
+
       - name: Setup void-packages
         run: |
           chown -R builder:builder void-packages
@@ -130,12 +136,6 @@ jobs:
         run: |
           cat void-repo/packages/shlibs >> void-packages/common/shlibs
           find void-repo/packages/* \( -type d -o -type l \) -exec cp -r {} void-packages/srcpkgs/ \;
-
-      - name: Add my own repo to void-packages repo list
-        run: |
-          mkdir void-packages/etc/xbps.d/custom
-          echo 'repository=https://j0ng4b.github.io/void-repo/current' \
-           > void-packages/etc/xbps.d/custom/01-j0ng4b-remote-repo.conf
 
       - name: Building package ${{ matrix.package }}
         id: build-package
