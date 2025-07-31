@@ -1,6 +1,6 @@
 # Template file for 'quickshell'
 pkgname=quickshell
-version=0.1.0
+version=0.2.0
 revision=1
 build_style=cmake
 configure_args="-DDISTRIBUTOR=VoidLinux
@@ -28,7 +28,7 @@ maintainer="Jonatha Gabriel <jonathagabrielns@gmail.com>"
 license="LGPL-3.0-or-later"
 homepage="https://quickshell.outfoxxed.me/"
 distfiles="https://git.outfoxxed.me/quickshell/quickshell/archive/v${version}.zip"
-checksum=8aa03e95817a002a0024e13b6f52143a9929e7a77b2fc7c0dd7c960e64246c28
+checksum=b3150913d93cd842c82ea3ef8f8ad31d4ea863b5a75f89bf5e4087e010223388
 
 post_install() {
 	vlicense LICENSE
