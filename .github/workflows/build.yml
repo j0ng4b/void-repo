@@ -125,7 +125,7 @@ jobs:
           echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
           echo XBPS_CHROOT_CMD=uchroot >> etc/conf
 
-          yes | sudo -u builder ./xbps-src -A $XBPS_ARCH binary-bootstrap
+          yes | sudo -Eu builder ./xbps-src -A $XBPS_ARCH binary-bootstrap
 
       - name: Checkout void-repo
         uses: actions/checkout@v4
@@ -141,7 +141,7 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          sudo -u builder ./xbps-src -s -A $XBPS_ARCH pkg "${{ matrix.package }}" -j$(nproc)
+          sudo -Eu builder ./xbps-src -s -A $XBPS_ARCH pkg "${{ matrix.package }}" -j$(nproc)
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(sudo -u builder ./xbps-src -A $XBPS_ARCH show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
