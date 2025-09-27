@@ -2,7 +2,7 @@
 pkgname=j0ng4b-base
 version=1
 revision=1
-build_style=meta
+metapackage=yes
 depends="
 	NetworkManager
 	bat
