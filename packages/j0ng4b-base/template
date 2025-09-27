@@ -32,7 +32,7 @@ depends="
 	wireplumber
 	wl-clipboard
 	wlsunset
-	xdg-desktop-portal-gnome
+	xdg-desktop-portal-wlr
 	xdg-user-dirs
 	xwayland-satellite
 	zsh
