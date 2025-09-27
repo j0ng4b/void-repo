@@ -4,6 +4,7 @@ version=1
 revision=1
 build_style=meta
 depends="
+	NetworkManager
 	bat
 	bluez
 	brightnessctl
@@ -11,32 +12,29 @@ depends="
 	cava
 	dconf
 	dejavu-fonts-ttf
-	delta
-	dunst
-	eww-git
 	eza
+	firefox
 	foot
 	grim
 	inotify-tools
-	iwd
 	jq
 	libspa-bluetooth
-	papirus-icon-theme
+	mesa-dri
+	neovim
+	niri
 	pipewire
-	rofi-wayland
+	quickshell
 	seatd
-	starship
 	slurp
-	spotify-adblock
-	swayfx
-	swayidle
+	starship
 	swww
 	tlp
-	tmux
 	wireplumber
 	wl-clipboard
 	wlsunset
-	yazi
+	xdg-desktop-portal-gnome
+	xdg-user-dirs
+	xwayland-satellite
 	zsh
 "
 short_desc="meta package for j0ng4b base packages"
